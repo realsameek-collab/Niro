@@ -1,5 +1,6 @@
 import express from "express"
 import dotenv from "dotenv"
+import { connectDb } from "./controllers/connectDb.js"
 dotenv.config()
 const app = express()
 const PORT = process.env.PORT
@@ -9,4 +10,5 @@ app.get("/" , (req,res)=>{
 
 app.listen(PORT , ()=>{
     console.log(`Server Started at ${PORT}`)
+    connectDb()
 })
