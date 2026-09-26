@@ -3,7 +3,7 @@ import User from "../models/user.model.js"
 
 
 
-export const googleAuth = async () => {
+export const googleAuth = async (req, res) => {
     try {
         const {name, email} = req.body
         let user = await User.findOne({
@@ -30,7 +30,7 @@ export const googleAuth = async () => {
 
 export const logout =  async (req,res) => {
     try {
-        await clearCookie("token" , {
+        res.clearCookie("token" , {
              httpOnly:true,
             secure:false,
             sameSite:"strict"
