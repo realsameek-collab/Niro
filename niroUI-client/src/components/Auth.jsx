@@ -5,7 +5,11 @@ import { useState } from 'react';
 import { HiSparkles } from "react-icons/hi2";
 import { TbCopy, TbSettings, TbDownload, TbLogin2, TbX } from "react-icons/tb";
 import { useEffect, useRef } from 'react';
-
+import { FcGoogle } from "react-icons/fc";
+import { signInWithPopup } from 'firebase/auth';
+import { auth, provider } from '../utils/firebase';
+import axios from "axios"
+import { serverUrl } from '../App';
 const steps = [
     { icon: TbLogin2, title: "Login with Google", desc: "Secure OAuth to unlock all AI tools instantly." },
     { icon: HiSparkles, title: "Get 150 AI Credits", desc: "Free credits to generate premium UI components." },
@@ -42,6 +46,18 @@ function Auth({ onClose }) {
         ro.observe(el)
         return () => ro.disconnect()
     }, [])
+    const googleAuth = async () => {
+        try {
+            const response = await signInWithPopup(auth,provider)
+            let User = response.user
+            let name = response.name
+            let email = User.email
+            const result = await axios.post(serverUrl + "/api/auth/google" , {name , email} , {withCredentials:true})
+            console.log(result.data)
+        } catch (error) {
+            console.log(error)
+        }
+    }
     return (
         <AnimatePresence>
             <motion.div
@@ -136,13 +152,109 @@ function Auth({ onClose }) {
 
                     {/*Right Box*/}
                     <motion.div
-                        initial={{ opacity: 0, x: 24 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.25 , duration:0.5 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.25, duration: 0.5 }}
                         className='sm:w-[48%] bg-[#040f12] px-6 sm:px-10 py-8 sm:py-12 flex flex-col justify-center 
                     items-center relative overflow-hidden'>
-                         <div className='absolute inset-0 bg-[linear-gradient(rgba(59,232,255,0.025)_1px,transparent_1px),
+                        <div className='absolute inset-0 bg-[linear-gradient(rgba(59,232,255,0.025)_1px,transparent_1px),
                          linear-gradient(90deg,rgba(59,232,255,0.025)_1px,transparent_1px)] bg-[size:32px_32px]' />
+                        <div className='relative z-10 w-full max-w-[280px] sm:max-w-[260px] text-center mx-auto'>
+                            <motion.div
+                                animate={{ y: [0, -6, 0] }}
+                                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+
+                                className='w-12 h-12 sm:w-14 sm:h-14 rounded-2xl mx-auto mb-5 sm:mb-6 bg-gradient-to-br
+                             from-[#3be8ff]/15 to-[#040f12] border border-[#3be8ff]/20 flex items-center justify-center'>
+                                <SiValorant size={22} color='#3be8ff' />
+                            </motion.div>
+                            <h3
+                                className='text-xl font-bold text-[#e4f6f8] tracking-tight mb-2'
+                                style={{ fontFamily: "'Syne', sans-serif" }}>
+                                Welcome
+                            </h3>
+                            <p className='text-[13px] text-[#96bec8]/55 leading-relaxed mb-6 sm:mb-7'>
+                                Sign in to generate AI-powered UI components in seconds
+                            </p>
+                            <div className='flex justify-center gap-4 sm:gap-5 mb-6 sm:mb-7'>
+                                {
+                                    [["150", "AICredits"], ["∞", "Components"], ["JSX", "Ready"]].map(([v, l], i) => (
+                                        <div key={i} className='text-center'>
+                                            <div className='text-base font-bold text-[#3be8ff]'>{v}</div>
+                                            <div className='text-[9px] text-[#78aab4]/45 uppercase tracking-wider font-medium'>{l}</div>
+                                        </div>
+                                    ))
+                                }
+
+
+                            </div>
+                            <motion.button
+                            onClick={googleAuth}
+                                whileHover={{
+                                    y: -3,
+                                    scale: 1.015,
+                                    boxShadow: "0 14px 35px rgba(59, 232, 255, 0.18)",
+                                }}
+                                whileTap={{
+                                    scale: 0.975,
+                                    y: 0,
+                                }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 400,
+                                    damping: 20,
+                                }}
+                                className="
+        group relative w-full h-[48px]
+        flex items-center justify-center gap-2.5
+        rounded-xl
+        bg-white
+        text-[#0a1a1d]
+        font-semibold text-[14px]
+        cursor-pointer
+        border border-white/80
+        shadow-[0_6px_24px_rgba(0,0,0,0.28)]
+        overflow-hidden
+        transition-colors duration-300
+        hover:bg-[#f8fdff]
+        focus:outline-none
+        focus:ring-2 focus:ring-[#3be8ff]/30
+    "
+                            >
+                                {/* Animated cyan shine */}
+                                <span
+                                    className="
+            absolute inset-0
+            -translate-x-[120%]
+            skew-x-[-20deg]
+            bg-gradient-to-r
+            from-transparent
+            via-[#3be8ff]/20
+            to-transparent
+            transition-transform duration-700
+            group-hover:translate-x-[120%]
+        "
+                                />
+
+                                {/* Google icon */}
+                                <motion.span
+                                    className="relative z-10 flex items-center justify-center"
+                                    whileHover={{ scale: 1.12 }}
+                                    transition={{ type: "spring", stiffness: 500, damping: 15 }}
+                                >
+                                    <FcGoogle size={19} />
+                                </motion.span>
+
+                                <span className="relative z-10">
+                                    Continue with Google
+                                </span>
+                            </motion.button>
+                         <p className='text-[11px] text-[#64919b]/45 mt-4 sm:mt-5'>
+                          No account needed for npm.{" "}<span onClick={onClose} className='text-[#3be8ff]/50 border-b border-[#3be8ff]/20
+                           cursor-pointer hover:text-[#3be8ff]/80 transition-colors'>View docs →</span>
+                         </p>
+
+                        </div>
 
                     </motion.div>
 
