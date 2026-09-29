@@ -19,6 +19,7 @@ function Home() {
   const [showAuth, setshowAuth] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [copied, setCopied] = useState(false)
 
   const { userData } = useSelector((state) => state.user)
   const dispatch = useDispatch()
@@ -39,6 +40,19 @@ function Home() {
     }
     setProfileOpen(false)
   }
+  const handleCopy = () => {
+    navigator.clipboard.writeText("npm install niroui-lib")
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
+
+  const handleGenerateClick = () => {
+  if(userData){
+    navigate("/generate")
+  }else{
+    setshowAuth(true)
+  }
+}
 
   return (
     <div className='min-h-screen bg-[#030b0d] text-white overflow-x-hidden'
@@ -162,7 +176,13 @@ function Home() {
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.25 }}
               className='md:hidden sticky top-[65px] z-30 bg-[#030b0d]/95 backdrop-blur-md border-b border-white/[0.05] px-4 py-4 flex flex-col gap-3'>
-              <button className='text-sm text-white/60 hover:text-white transition-colors py-1'>Components</button>
+              <button
+                onClick={() => setMenuOpen(false)}
+                className='duration-200 px-6 py-2.5 border border-white/15 rounded-xl text-sm text-white/70 
+             hover:text-white hover:border-white/25 transition-all cursor-pointer bg-transparent w-full'>
+                Components
+              </button>
+
               {userData ? (
                 <>
                   <div className='flex items-center gap-2.5 py-2 border-t border-white/[0.07]'>
@@ -175,6 +195,12 @@ function Home() {
                   </div>
                   <button className='flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors py-1 bg-transparent border-none cursor-pointer text-left'>
                     <TbComponents size={15} className="text-[#3be8ff]/70" /> My Components
+                  </button>
+                  <button
+                    onClick={() => { handleLogout(); setMenuOpen(false) }}
+                    className='flex items-center gap-2 text-sm text-red-400/80 hover:text-red-400
+                  transition-colors py-1 bg-transparent border-none cursor-pointer text-left'>
+                    <TbLayout size={16} /> Logout
                   </button>
 
                 </>
@@ -193,7 +219,87 @@ function Home() {
         }
       </AnimatePresence>
 
+      {/* hero section */}
+      <section className='relative max-w-5xl mx-auto px-4 sm:px-6 pt-16 sm:pt-24 pb-12 sm:pb-20 text-center'>
 
+        <motion.div
+          initial={{ opacity: 0, y: 22 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.05, duration: 0.6 }}
+          className='inline-flex items-center gap-2 text-[10px] font-semibold tracking-[2.5px] uppercase text-[#3be8ff]/70 border border-[#3be8ff]/20 bg-[#3be8ff]/[0.05] rounded-full px-4 py-1.5 mb-6 sm:mb-7'>
+          <span className='w-1.5 h-1.5 rounded-full bg-[#3be8ff] animate-pulse' />
+          AI-Powered React UI Library
+        </motion.div>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 22 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.12, duration: 0.6 }}
+          className='text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.08] tracking-tight mb-5 sm:mb-6' style={{ fontFamily: "'Syne',sans-serif" }}
+        >
+          Build React UI<br />
+          <span className='text-transparent bg-clip-text bg-gradient-to-r from-[#3be8ff] to-[#0ab5d4]'>
+            Faster with AI
+          </span>
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 22 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+          className='text-white/50 text-base sm:text-lg max-w-xl mx-auto leading-relaxed mb-8 sm:mb-10 font-light px-2'
+        >
+          Use prebuilt NiroUI components or generate custom ones with AI.
+          Copy clean JSX directly into your project in seconds.
+        </motion.p>
+
+        <motion.div initial={{ opacity: 0, y: 22 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.27, duration: 0.6 }}
+          className='flex justify-center mb-7 sm:mb-8 px-2'>
+          <div className='flex items-center gap-2 sm:gap-3 bg-white/[0.04] border border-white/10 rounded-xl px-4 sm:px-5 py-3 text-xs sm:text-sm font-mono w-full max-w-xs sm:max-w-fit'>
+            <span className='text-[#3be8ff]/60'>$</span>
+            <span className='text-white/80 truncate'>
+              npm install niroui-lib
+            </span>
+            <button
+              onClick={handleCopy}
+              className='ml-1 text-white/30 hover:text-[#3be8ff] transition-colors cursor-pointer 
+            bg-transparent border-none flex-shrink-0'>
+
+              {copied ? <TbCheck size={15} className="text-[#3be8ff]" /> : <TbCopy size={15} />}
+
+            </button>
+
+          </div>
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 22 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.33, duration: 0.6 }}
+          className='flex flex-col sm:flex-row justify-center gap-3 px-4 sm:px-0'>
+          <motion.button
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.97 }}
+            className='flex items-center justify-center gap-2 px-6 sm:px-7 py-3.5 bg-white text-[#030b0d] rounded-xl
+             font-semibold text-sm cursor-pointer border-none shadow-[0_4px_24px_rgba(255,255,255,0.1)] 
+             hover:shadow-[0_6px_32px_rgba(255,255,255,0.18)] transition-shadow w-full sm:w-auto'>
+            Get Started <TbArrowRight size={15} />
+          </motion.button>
+          <motion.button
+          onClick={handleGenerateClick}
+            whileHover={{ y: -2 }}
+            whileTap={{ scale: 0.97 }}
+            className='flex items-center justify-center gap-2 px-6 sm:px-7 py-3.5 border border-white/15 rounded-xl text-sm text-white/70 hover:text-white hover:border-white/25 transition-all cursor-pointer bg-transparent w-full sm:w-auto'>
+            <HiSparkles size={14} /> Generate AI Component
+          </motion.button>
+          
+        </motion.div>
+
+
+
+
+      </section>
 
 
 
