@@ -476,6 +476,32 @@ function Home() {
               </>
             ) : (
               <>
+                <p className='text-white/40 mb-7 sm:mb-8 text-sm max-w-md mx-auto leading-relaxed'>
+                  Sign in with Google, get 150 free AI Credits, and start generating production-ready UI components instantly.
+                </p>
+
+                <div className='flex flex-col sm:flex-row justify-center gap-3'>
+                  <motion.button
+                    whileHover={{ y: -2, scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => setshowAuth(true)}
+                    className='flex items-center justify-center gap-2 bg-[#3be8ff] text-[#030b0d] px-7 py-3.5 rounded-xl 
+                    font-semibold text-sm cursor-pointer border-none shadow-[0_0_30px_rgba(59,232,255,0.3)] 
+                    hover:shadow-[0_0_40px_rgba(59,232,255,0.45)] transition-shadow'>
+                    <HiSparkles size={15} /> Get Stareted Free
+                  </motion.button>
+                  <motion.button whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.98 }} className='flex items-center
+  justify-center gap-2 px-7 py-3.5 border border-white/15
+  rounded-xl text-sm text-white/60 hover:text-white
+  hover:border-white/25 transition-all cursor-pointer
+  bg-transparent'>
+                    <TbComponents size={16} className="text-[#3be8ff]/70" />
+                    Components
+                  </motion.button>
+
+                </div>
+
               </>
             )}
 
@@ -483,6 +509,31 @@ function Home() {
 
         </motion.div>
       </section>
+
+
+      <footer className='border-t border-white/[0.05] py-8 sm:py-10'>
+        <div className='max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0'>
+          <div className='flex items-center gap-2.5'>
+            <div className='w-8 h-8 rounded-xl bg-gradient-to-br from-[#3be8ff] to-[#0ab5d4] flex 
+          items-center justify-center shadow-[0_0_14px_rgba(59,232,255,0.4)]'>
+              <SiValorant size={15} color='#051c20' />
+            </div>
+            <span className='text-xl font-bold text-[#e8f8fa] tracking-tight' style={{ fontFamily: "'Syne', sans-serif" }}>
+              NiroUI </span>
+
+          </div>
+          <div className='flex flex-wrap justify-center gap-4 sm:gap-5 text-xs text-white/30'>
+            <span className='hover:text-white/60 transition-colors'>Components</span>
+            <span className='hover:text-white/60 transition-colors'>admin@niroui.com</span>
+          </div>
+          <p className='text-xs text-white/25 order-last sm:order-none'>
+          © {new Date().getFullYear()} NiroUI. All rights reserved.
+        </p>
+
+        </div>
+        
+      </footer>
+
 
 
 
