@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home.jsx'
+import Generate from './pages/Generate.jsx'
 import { useEffect } from 'react'
 import axios from "axios"
 import { setUserData } from './redux/userSlice.js'
@@ -23,6 +24,7 @@ function App() {
   return (
     <Routes>
       <Route path='/'  element={<Home/>}/>
+       <Route path='/generate'  element={<Generate/>}/>
     </Routes>
   )
 }
